@@ -9,6 +9,7 @@ jobs:
       - name: Checkout Source Code
         uses: actions/checkout@v4
 
+      # THIS IS THE FIX: Explicitly forcing Java 17
       - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
@@ -26,7 +27,8 @@ jobs:
           cp index.html www/ || true
           cp -r css www/ || true
           cp -r js www/ || true
-          cp -r images www/ || true
+          cp -r style.css www/ || true
+          cp -r script.js www/ || true
 
       - name: Install and Init Capacitor
         run: |
