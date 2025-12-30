@@ -13,13 +13,22 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Prepare Web Directory
+        run: |
+          # Creates a 'www' folder and moves your web files into it
+          mkdir www
+          cp index.html www/ || true
+          cp -r css www/ || true
+          cp -r js www/ || true
+          cp -r images www/ || true
+
       - name: Install Tools
         run: |
           npm install @capacitor/core @capacitor/cli @capacitor/android
-          npx cap init "Food Tracker" "com.shunasrj.foodtracker" --web-dir .
+          npx cap init "Food Tracker" "com.shunasrj.foodtracker" --web-dir www
           npx cap add android
 
-      - name: Sync Web Code
+      - name: Sync Code
         run: npx cap copy android
 
       - name: Build with Gradle
@@ -28,9 +37,9 @@ jobs:
           chmod +x gradlew
           ./gradlew assembleDebug
 
-      - name: Upload Finished APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Food-Tracker-APK
+          name: Food-Tracker-Final
           path: android/app/build/outputs/apk/debug/app-debug.apk
-          
+        
